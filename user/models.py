@@ -5,6 +5,8 @@ from django.db import models
 from lib.orm import ModelMixin
 
 # Create your models here.
+from social.models import Swipe
+
 SEX = (
         ('female', 'female'),
         ('male', 'male'),
@@ -65,6 +67,13 @@ class User(models.Model):
         print('get from self')
         return self.profile_
 
+    # 查看喜欢我的人
+    def liked_me(self):
+        swipes = Swipe.objects.filter(sid=self.id,
+                                      mark__in=['like', 'superlike']).only('uid')
+        uid_list = [u.uid for u in swipes]
+        users = User.objects.filter(id__in=uid_list)
+        return users
 
 
 class Profile(models.Model, ModelMixin):

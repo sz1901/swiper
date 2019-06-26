@@ -34,7 +34,8 @@ INSTALLED_APPS = [
     'django.contrib.contenttypes',
     'django.contrib.sessions',
     'django.contrib.staticfiles',
-    'user'
+    'user',
+    'social'
 ]
 
 MIDDLEWARE = [
@@ -123,3 +124,16 @@ USE_TZ = True
 STATIC_URL = '/static/'
 
 MEDIA_ROOT = 'medias'
+
+
+## django-redis配置
+CACHES = {
+    "default": {
+    "BACKEND": "django_redis.cache.RedisCache",
+    "LOCATION": "redis://127.0.0.1:6379/1",
+    "OPTIONS": {
+    "CLIENT_CLASS": "django_redis.client.DefaultClient",
+    "PICKLE_VERSION": -1,
+    		}
+	}
+}

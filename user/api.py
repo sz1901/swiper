@@ -20,10 +20,9 @@ def submit_phone(request):
     """提交手机号码"""
     phone = request.POST.get('phone')
     # 给这个手机号码发短信.
-    msg = send_vcode(phone)
-    if msg == 'OK':
-        return render_json()
-    return render_json(code=errors.SMS_ERROR, data=msg)
+    send_vcode.delay(phone)
+    return render_json()
+
 
 
 def submit_vcode(request):
@@ -78,16 +77,10 @@ def upload_avatar(request):
 
     uid = user.id
     # 保存到本地
-    handle_uploaded_file(uid, avatar)
-
-    # 上传到七牛云
-    flag = upload_qiniu(uid)
-    if flag:
-        # 拼接地址
-        avatar_url = urljoin(config.QINIU_URL, keys.AVATAR_KEY % uid)
-        user.avatar = avatar_url
-        user.save()
-        return render_json(data='上传成功')
-    return render_json(code=errors.AVATAR_ERR, data='上传七牛云失败')
+    handle_uploaded_file.delay(uid, avatar)
+    avatar_url = urljoin(config.QINIU_URL, keys.AVATAR_KEY % uid)
+    user.avatar = avatar_url
+    user.save()
+    return render_json(data='上传成功')
 
 

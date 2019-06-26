@@ -16,3 +16,8 @@ ACCESS_KEY = 'uTCi4T1X2ozCDwQvzyEjCszNsATntmvKv-8ntFh0'
 SECRET_KEY = 'utEyFUPxY1C_wy8O2k3zbSnUteDhwWbigAGP4VOP'
 BUCKET_NAME = 'sz1901'
 QINIU_URL= 'http://ptnay1ksd.bkt.clouddn.com'
+
+
+
+# 额外的配置
+REWIND_TIMES = 3
